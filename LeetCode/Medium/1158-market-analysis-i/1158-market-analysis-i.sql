@@ -7,6 +7,6 @@ FROM Users AS u
 LEFT JOIN Orders AS o
   ON u.user_id = o.buyer_id
  AND o.order_date BETWEEN '2019-01-01' AND '2019-12-31'
-GROUP BY u.user_id, u.join_date
-ORDER BY u.user_id;
+GROUP BY u.user_id
+;
 
