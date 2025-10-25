@@ -6,6 +6,7 @@ WITH first_order_table AS (
   FROM Delivery
   GROUP BY customer_id
 )
+# join the first-order info back to Delivery to know the customer_pref_delivery_date for that earliest order
 SELECT
   ROUND(
     100.0 * COUNT(
