@@ -1,13 +1,25 @@
 # Write your MySQL query statement below
-SELECT
+/*SELECT
   ua.user_id,
   ROUND(AVG(CASE WHEN ua.activity_type = 'free_trial' THEN ua.activity_duration END), 2) AS trial_avg_duration,
   ROUND(AVG(CASE WHEN ua.activity_type = 'paid' THEN ua.activity_duration END), 2) AS paid_avg_duration
 FROM UserActivity ua
 WHERE EXISTS (SELECT 1 FROM UserActivity x WHERE x.user_id = ua.user_id AND x.activity_type = 'free_trial')
-  AND EXISTS (SELECT 1 FROM UserActivity y WHERE y.user_id = ua.user_id AND y.activity_type = 'paid')
+AND EXISTS (SELECT 1 FROM UserActivity y WHERE y.user_id = ua.user_id AND y.activity_type = 'paid')
 GROUP BY ua.user_id
 ORDER BY ua.user_id;
+*/
+SELECT
+  user_id,
+  ROUND(AVG(CASE WHEN activity_type = 'free_trial'
+                 THEN activity_duration END), 2) AS trial_avg_duration,
+  ROUND(AVG(CASE WHEN activity_type = 'paid'
+                 THEN activity_duration END), 2) AS paid_avg_duration
+FROM UserActivity
+GROUP BY user_id
+HAVING COUNT(CASE WHEN activity_type = 'free_trial' THEN 1 END) > 0
+   AND COUNT(CASE WHEN activity_type = 'paid'       THEN 1 END) > 0
+ORDER BY user_id ASC;
 
 /*
 with trial as
